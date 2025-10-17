@@ -12,11 +12,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
     <style>
-        /* Noto Sans KR 폰트 적용 */
         body {
             font-family: 'Noto Sans KR', sans-serif;
+            background-color: #F9F7FF;
         }
-        /* 스크롤 애니메이션을 위한 기본 스타일 */
         .scroll-reveal {
             opacity: 0;
             transform: translateY(30px);
@@ -26,128 +25,173 @@
             opacity: 1;
             transform: translateY(0);
         }
-        /* 헤더 그림자 */
         .header-shadow {
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 10px rgba(100, 100, 150, 0.08);
         }
-        /* 그라데이션 텍스트 */
         .gradient-text {
-            background: linear-gradient(to right, #4F46E5, #3B82F6);
+            background: linear-gradient(to right, #8B5CF6, #FBBF24);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
             text-fill-color: transparent;
         }
-        /* 리뷰 티커 애니메이션 */
+        details > summary { list-style: none; }
+        details > summary::-webkit-details-marker { display: none; }
+        .faq-icon { transition: transform 0.3s ease; }
+        details[open] .faq-icon { transform: rotate(180deg); }
+
         @keyframes ticker-scroll {
-            0% {
-                transform: translateY(0);
-            }
-            100% {
-                transform: translateY(-50%); /* 복제된 리스트만큼만 이동 */
-            }
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-50%); }
         }
         #review-ticker-list {
-            animation: ticker-scroll 30s linear infinite;
+            animation: ticker-scroll 45s linear infinite;
+        }
+        .section-background {
+            position: relative;
+            background-size: cover;
+            background-position: center;
+        }
+        .section-overlay {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+        }
+        .section-content {
+            position: relative;
+            z-index: 2;
+        }
+        .hero-section {
+            background-image: url('img/main.png');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(2px);
+        }
+        .hero-content {
+            position: relative;
+            z-index: 10;
+        }
+        .service-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
         }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800">
+<body class="text-gray-800">
 
-    <!-- Header -->
-    <header class="bg-white sticky top-0 z-50 header-shadow">
+    <header class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 header-shadow">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <h1 class="text-2xl font-black text-indigo-600">성수티켓</h1>
+            <a href="#" class="text-2xl font-black text-violet-600">성수티켓</a>
             <nav class="hidden md:flex items-center space-x-8">
-                <a href="#about" class="text-gray-600 hover:text-indigo-600 transition">서비스 안내</a>
-                <a href="#process" class="text-gray-600 hover:text-indigo-600 transition">이용 방법</a>
-                <a href="#faq" class="text-gray-600 hover:text-indigo-600 transition">자주 묻는 질문</a>
-                <a href="#" class="open-modal-button bg-indigo-600 text-white px-5 py-2 rounded-full font-bold hover:bg-indigo-700 transition shadow-md">
-                    <i class="fas fa-paper-plane mr-2"></i>상담 신청
-                </a>
+                <a href="#about" class="text-gray-600 hover:text-violet-600 transition font-medium">서비스 안내</a>
+                <a href="#process" class="text-gray-600 hover:text-violet-600 transition font-medium">이용 방법</a>
+                <a href="#faq" class="text-gray-600 hover:text-violet-600 transition font-medium">자주 묻는 질문</a>
             </nav>
-            <button id="mobile-menu-button" class="md:hidden text-2xl">
+            <a href="#" class="open-modal-button hidden md:inline-block bg-violet-600 text-white px-6 py-2 rounded-full font-bold hover:bg-violet-700 transition shadow-lg shadow-violet-500/20">
+                <i class="fas fa-paper-plane mr-2"></i>상담 신청
+            </a>
+            <button id="mobile-menu-button" class="md:hidden text-2xl text-violet-600">
                 <i class="fas fa-bars"></i>
             </button>
         </div>
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden md:hidden px-6 pt-2 pb-4 space-y-2">
-            <a href="#about" class="block text-gray-600 hover:text-indigo-600 transition py-2">서비스 안내</a>
-            <a href="#process" class="block text-gray-600 hover:text-indigo-600 transition py-2">이용 방법</a>
-            <a href="#faq" class="block text-gray-600 hover:text-indigo-600 transition py-2">자주 묻는 질문</a>
-            <a href="#" class="open-modal-button block bg-indigo-600 text-white text-center mt-2 px-5 py-3 rounded-lg font-bold hover:bg-indigo-700 transition shadow-md">
+        <div id="mobile-menu" class="hidden md:hidden px-6 pt-2 pb-4 space-y-2 bg-white">
+            <a href="#about" class="block text-gray-600 hover:text-violet-600 transition py-2 font-medium">서비스 안내</a>
+            <a href="#process" class="block text-gray-600 hover:text-violet-600 transition py-2 font-medium">이용 방법</a>
+            <a href="#faq" class="block text-gray-600 hover:text-violet-600 transition py-2 font-medium">자주 묻는 질문</a>
+            <a href="#" class="open-modal-button block bg-violet-600 text-white text-center mt-2 px-5 py-3 rounded-lg font-bold hover:bg-violet-700 transition shadow-md">
                 <i class="fas fa-paper-plane mr-2"></i>상담 신청
             </a>
         </div>
     </header>
 
-    <!-- Main Content -->
     <main>
-        <!-- Hero Section -->
-        <section class="bg-white pt-20 pb-24 text-center">
+        <section class="relative pt-20 pb-24 md:pt-24 md:pb-32 overflow-hidden hero-section">
+            <div class="hero-overlay"></div>
+            <div class="container mx-auto px-6 relative z-10 flex flex-col items-center justify-center text-center hero-content">
+                <p class="font-bold text-yellow-300 mb-2 text-xl scroll-reveal">만 19세 이상이라면 누구나!</p>
+                <h2 class="text-4xl md:text-6xl font-black leading-tight md:leading-snug mb-4 text-white scroll-reveal">
+                    신용등급 상관없이<br>
+                    <span class="gradient-text">최대 200만원까지!</span>
+                </h2>
+                <p class="text-lg md:text-xl text-gray-200 mb-10 max-w-2xl scroll-reveal">
+                    휴대폰만 있다면 24시간 365일 어디서든 진행 가능!<br>천사처럼 빠르고 안전하게 입금해 드립니다.
+                </p>
+                <div class="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-6 scroll-reveal">
+                    <a href="#" class="w-full sm:w-auto bg-yellow-400 text-gray-900 font-bold py-4 px-10 rounded-full text-lg hover:bg-yellow-500 transition shadow-xl shadow-yellow-500/20 flex items-center justify-center">
+                        <i class="fa-solid fa-comment mr-3"></i>카카오톡 상담
+                    </a>
+                    <a href="#" class="w-full sm:w-auto bg-gray-800 text-white font-bold py-4 px-10 rounded-full text-lg hover:bg-gray-900 transition shadow-xl shadow-gray-800/20 flex items-center justify-center">
+                        <i class="fa-solid fa-phone mr-3"></i>전화 상담
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section id="services" class="py-16 md:py-24 bg-white">
             <div class="container mx-auto px-6">
-                <div class="max-w-3xl mx-auto">
-                    <h2 class="text-4xl md:text-6xl font-black leading-tight mb-4">
-                        가장 빠르고 안전한<br>
-                        <span class="gradient-text">상품권 현금 교환 솔루션</span>
-                    </h2>
-                    <p class="text-lg md:text-xl text-gray-500 mb-10">
-                        24시간 365일, 복잡한 절차 없이 평균 3분 내 입금 완료!<br>
-                        고객님의 시간과 신뢰를 가장 소중하게 생각합니다.
-                    </p>
-                    <div class="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-6">
-                        <a href="#" class="w-full sm:w-auto bg-yellow-400 text-gray-800 font-bold py-4 px-10 rounded-full text-lg hover:bg-yellow-500 transition shadow-lg flex items-center justify-center">
-                            <i class="fa-solid fa-comment mr-3"></i>카카오톡 상담
-                        </a>
-                        <a href="#" class="w-full sm:w-auto bg-gray-800 text-white font-bold py-4 px-10 rounded-full text-lg hover:bg-gray-900 transition shadow-lg flex items-center justify-center">
-                            <i class="fa-solid fa-phone mr-3"></i>전화 상담
-                        </a>
+                <div class="text-center mb-12 md:mb-16">
+                    <h2 class="text-3xl md:text-4xl font-black text-gray-900 mb-4 scroll-reveal">5분 내로 비상금 입금 완료!</h2>
+                    <p class="text-lg text-gray-600 max-w-2xl mx-auto scroll-reveal">소액결제 한도, 정보이용료 한도, 신용카드 한도, 불필요한 상품권 등으로 현금마련!</p>
+                </div>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="service-card text-center bg-gradient-to-br from-violet-50 to-indigo-100 p-8 rounded-2xl shadow-lg border border-gray-100 scroll-reveal">
+                        <div class="bg-violet-600 text-white w-20 h-20 rounded-full flex items-center justify-center text-4xl mx-auto mb-6 shadow-lg shadow-violet-500/30">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-2 text-gray-900">소액결제 한도</h3>
+                        <p class="text-gray-500 text-sm mb-4">휴대폰만으로 간편하게</p>
+                        <p class="text-4xl font-extrabold text-violet-600">100<span class="text-2xl font-semibold">만원</span></p>
+                        <p class="text-gray-600 font-medium mt-1">최대 한도</p>
+                    </div>
+                    
+                    <div class="service-card text-center bg-gradient-to-br from-blue-50 to-cyan-100 p-8 rounded-2xl shadow-lg border border-gray-100 scroll-reveal">
+                        <div class="bg-blue-500 text-white w-20 h-20 rounded-full flex items-center justify-center text-4xl mx-auto mb-6 shadow-lg shadow-blue-500/30">
+                            <i class="fas fa-file-invoice-dollar"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-2 text-gray-900">정보이용료 한도</h3>
+                        <p class="text-gray-500 text-sm mb-4">다양한 콘텐츠 결제</p>
+                        <p class="text-4xl font-extrabold text-blue-500">100<span class="text-2xl font-semibold">만원</span></p>
+                        <p class="text-gray-600 font-medium mt-1">최대 한도</p>
+                    </div>
+        
+                    <div class="service-card text-center bg-gradient-to-br from-amber-50 to-yellow-100 p-8 rounded-2xl shadow-lg border border-gray-100 scroll-reveal">
+                        <div class="bg-amber-500 text-white w-20 h-20 rounded-full flex items-center justify-center text-4xl mx-auto mb-6 shadow-lg shadow-amber-500/30">
+                            <i class="fas fa-credit-card"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-2 text-gray-900">신용카드 한도</h3>
+                        <p class="text-gray-500 text-sm mb-4">신용도 영향 없이</p>
+                        <p class="text-4xl font-extrabold text-amber-500">1000<span class="text-2xl font-semibold">만원</span></p>
+                        <p class="text-gray-600 font-medium mt-1">최대 한도</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Features Section -->
-        <section class="py-20">
-            <div class="container mx-auto px-6">
-                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-                    <div class="scroll-reveal bg-white p-8 rounded-2xl shadow-md text-center">
-                        <div class="text-4xl text-indigo-500 mb-4"><i class="fas fa-bolt"></i></div>
-                        <h3 class="text-xl font-bold mb-2">신속한 입금</h3>
-                        <p class="text-gray-500">신청 후 평균 3분,<br>업계 최고 속도를 경험하세요.</p>
-                    </div>
-                    <div class="scroll-reveal bg-white p-8 rounded-2xl shadow-md text-center">
-                        <div class="text-4xl text-indigo-500 mb-4"><i class="fas fa-shield-alt"></i></div>
-                        <h3 class="text-xl font-bold mb-2">안전 보장 거래</h3>
-                        <p class="text-gray-500">정식 등록 업체!<br>안심하고 거래할 수 있습니다.</p>
-                    </div>
-                    <div class="scroll-reveal bg-white p-8 rounded-2xl shadow-md text-center">
-                        <div class="text-4xl text-indigo-500 mb-4"><i class="fas fa-handshake"></i></div>
-                        <h3 class="text-xl font-bold mb-2">정직과 신뢰</h3>
-                        <p class="text-gray-500">투명한 수수료 안내로<br>고객 신뢰를 최우선으로 합니다.</p>
-                    </div>
-                    <div class="scroll-reveal bg-white p-8 rounded-2xl shadow-md text-center">
-                        <div class="text-4xl text-indigo-500 mb-4"><i class="far fa-clock"></i></div>
-                        <h3 class="text-xl font-bold mb-2">24시간 연중무휴</h3>
-                        <p class="text-gray-500">자금이 필요한 순간,<br>언제든지 이용 가능합니다.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- About Section -->
-        <section id="about" class="py-24 bg-white">
-            <div class="container mx-auto px-6">
+        <section id="about" class="py-16 md:py-24 section-background" style="background-image: url('img/2.jpg');">
+            <div class="section-overlay bg-white/80 backdrop-blur-sm"></div>
+            <div class="container mx-auto px-6 section-content">
                 <div class="grid lg:grid-cols-2 gap-16 items-center">
                     <div class="scroll-reveal">
                         <img src="img/1.png" alt="신뢰 기반의 상품권 거래 서비스" class="rounded-2xl shadow-xl w-full">
                     </div>
-                    <div class="scroll-reveal">
-                        <h2 class="text-3xl md:text-4xl font-black mb-6">성수티켓은 단순한<br>중개 플랫폼이 <span class="text-indigo-600">아닙니다.</span></h2>
-                        <p class="text-gray-600 mb-4 text-base leading-relaxed">
+                    <div class="scroll-reveal text-gray-800">
+                        <h2 class="text-3xl md:text-4xl font-black mb-6">성수티켓은 단순한<br>중개 플랫폼이 <span class="text-violet-600">아닙니다.</span></h2>
+                        <p class="mb-4 text-base leading-relaxed">
                             2024년부터 시작된 <strong>신뢰 기반의 정품 상품권 거래 서비스</strong>로, 누구나 안전하고 신속하게 현금 유동성을 확보할 수 있도록 돕는 프리미엄 티켓 솔루션 브랜드입니다. 은행이나 카드사처럼 복잡한 절차 없이, 단 한 번의 인증으로 정직하고 투명한 거래를 보장하며 신속한 입금과 정산을 통해 수많은 고객의 신뢰를 쌓아왔습니다.
                         </p>
-                        <p class="text-gray-600 text-base leading-relaxed">
+                        <p class="text-base leading-relaxed">
                             누구나 갑자기 자금이 필요할 때가 있습니다. 성수티켓은 그 마음을 누구보다 잘 압니다. 고객님의 시간과 신용을 가장 소중하게 생각하며, 필요한 순간 가장 믿을 수 있는 선택이 되겠습니다. 그것이 바로 <strong>성수티켓의 진심</strong>입니다.
                         </p>
                     </div>
@@ -155,31 +199,41 @@
             </div>
         </section>
 
-        <!-- Process Section -->
-        <section id="process" class="py-24">
+        <section id="process" class="py-16 md:py-24 bg-white">
             <div class="container mx-auto px-6 text-center">
-                <h2 class="text-3xl md:text-4xl font-black mb-4">단 3단계면 충분합니다</h2>
-                <p class="text-lg text-gray-500 mb-16 max-w-2xl mx-auto">복잡한 서류나 절차는 이제 그만! 누구나 쉽고 빠르게 이용할 수 있는 성수티켓의 간편 서비스</p>
-                <div class="grid md:grid-cols-3 gap-8 text-center relative">
-                    <!-- Dashed lines for larger screens -->
-                    <div class="hidden md:block absolute top-1/2 left-0 w-full h-px -translate-y-12">
-                         <svg width="100%" height="2">
-                           <line x1="0" y1="1" x2="100%" y2="1" stroke-width="2" stroke-dasharray="8 8" class="stroke-indigo-200"/>
-                         </svg>
-                    </div>
-
-                    <div class="scroll-reveal relative z-10">
-                        <div class="bg-indigo-500 text-white w-24 h-24 rounded-full flex items-center justify-center text-4xl mx-auto mb-6 shadow-lg"><i class="fas fa-comments"></i></div>
+                <h2 class="text-3xl md:text-4xl font-black mb-4 scroll-reveal">단 3단계면 충분합니다</h2>
+                <p class="text-lg text-gray-500 mb-12 md:mb-16 max-w-2xl mx-auto scroll-reveal">복잡한 서류나 절차는 이제 그만! 누구나 쉽고 빠르게 이용할 수 있는 성수티켓의 간편 서비스</p>
+                <div class="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-0 relative">
+                    <div class="flex-1 scroll-reveal relative z-10">
+                        <div class="bg-gradient-to-br from-violet-600 to-indigo-600 text-white w-24 h-24 rounded-full flex items-center justify-center text-4xl mx-auto mb-6 shadow-lg shadow-violet-500/30">
+                            <i class="fas fa-comments"></i>
+                        </div>
                         <h3 class="text-xl font-bold mb-2">STEP 01. 상담 및 접수</h3>
                         <p class="text-gray-500">전화 또는 카카오톡으로<br>간편하게 신청</p>
                     </div>
-                    <div class="scroll-reveal relative z-10">
-                        <div class="bg-indigo-500 text-white w-24 h-24 rounded-full flex items-center justify-center text-4xl mx-auto mb-6 shadow-lg"><i class="fas fa-user-check"></i></div>
+        
+                    <div class="w-full md:w-auto h-12 md:h-auto flex-shrink-0 mx-8 scroll-reveal relative z-0">
+                        <i class="fas fa-long-arrow-alt-right text-4xl text-gray-300 hidden md:block"></i>
+                        <i class="fas fa-long-arrow-alt-down text-4xl text-gray-300 md:hidden"></i>
+                    </div>
+
+                    <div class="flex-1 scroll-reveal relative z-10">
+                         <div class="bg-gradient-to-br from-violet-600 to-indigo-600 text-white w-24 h-24 rounded-full flex items-center justify-center text-4xl mx-auto mb-6 shadow-lg shadow-violet-500/30">
+                            <i class="fas fa-user-check"></i>
+                        </div>
                         <h3 class="text-xl font-bold mb-2">STEP 02. 본인 인증</h3>
                         <p class="text-gray-500">최초 1회, 안전한 거래를 위한<br>간단한 본인 확인</p>
                     </div>
-                    <div class="scroll-reveal relative z-10">
-                        <div class="bg-indigo-500 text-white w-24 h-24 rounded-full flex items-center justify-center text-4xl mx-auto mb-6 shadow-lg"><i class="fas fa-won-sign"></i></div>
+        
+                     <div class="w-full md:w-auto h-12 md:h-auto flex-shrink-0 mx-8 scroll-reveal relative z-0">
+                        <i class="fas fa-long-arrow-alt-right text-4xl text-gray-300 hidden md:block"></i>
+                        <i class="fas fa-long-arrow-alt-down text-4xl text-gray-300 md:hidden"></i>
+                    </div>
+
+                    <div class="flex-1 scroll-reveal relative z-10">
+                         <div class="bg-gradient-to-br from-violet-600 to-indigo-600 text-white w-24 h-24 rounded-full flex items-center justify-center text-4xl mx-auto mb-6 shadow-lg shadow-violet-500/30">
+                            <i class="fas fa-won-sign"></i>
+                        </div>
                         <h3 class="text-xl font-bold mb-2">STEP 03. 입금 완료</h3>
                         <p class="text-gray-500">수수료 안내 후<br>3분 내 계좌로 즉시 입금</p>
                     </div>
@@ -187,89 +241,162 @@
             </div>
         </section>
 
-        <!-- Review Ticker Section -->
-        <section class="py-20">
-            <div class="container mx-auto px-6">
-                <div class="max-w-lg mx-auto bg-white rounded-2xl shadow-lg overflow-hidden">
-                    <div class="p-4 bg-indigo-500 text-white text-center font-bold text-lg">
-                        <i class="fas fa-bullhorn mr-2"></i>실시간 상담 현황
+        <section id="micro-payment" class="py-16 md:py-24 section-background" style="background-image: url('img/3.jpg');">
+            <div class="section-overlay bg-blue-900/70"></div>
+            <div class="container mx-auto px-6 section-content text-white">
+                <div class="grid lg:grid-cols-2 gap-16 items-center">
+                    <div class="scroll-reveal flex justify-center">
+                        <img src="img/so_1.png" alt="휴대폰으로 소액결제하는 이미지" class="rounded-2xl shadow-xl w-full max-w-md mx-auto">
                     </div>
-                    <div id="review-ticker-container" class="h-56 overflow-hidden relative">
-                        <ul id="review-ticker-list" class="absolute top-0 left-0 w-full">
-                            <!-- JS will populate this -->
+                    <div class="scroll-reveal">
+                        <h2 class="text-3xl md:text-4xl font-black mb-6">휴대폰 소액결제 안내</h2>
+                        <p class="mb-4 leading-relaxed">성수티켓의 소액결제 서비스는 카드 없이 휴대폰 번호만으로 간편하게 결제하고, 청구는 다음 달 휴대폰 요금에 합산되는 독보적인 시스템입니다. 온라인 쇼핑, 게임·웹툰·스트리밍, 택시·배달 등 생활 서비스까지 어디서나 빠르고 편리하게 이용할 수 있습니다.</p>
+                        <h3 class="text-xl font-bold mb-3">이용 방법</h3>
+                        <ul class="space-y-2">
+                            <li><i class="fa-regular fa-circle-check text-yellow-300 mr-2"></i>상품 선택 후 결제 페이지로 이동하여 '휴대폰 결제'</li>
+                            <li><i class="fa-regular fa-circle-check text-yellow-300 mr-2"></i>휴대폰 번호 입력 및 본인 인증 후 결제 완료</li>
+                            <li><i class="fa-regular fa-circle-check text-yellow-300 mr-2"></i>결제 금액은 다음 달 요금에 합산 청구됩니다</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="gift-card" class="py-16 md:py-24 section-background" style="background-image: url('img/4.jpg');">
+            <div class="section-overlay bg-green-900/70"></div>
+            <div class="container mx-auto px-6 section-content text-white">
+                <div class="grid lg:grid-cols-2 gap-16 items-center">
+                    <div class="scroll-reveal lg:order-2 flex justify-center">
+                        <img src="img/so_2.png" alt="상품권 매입 이미지" class="rounded-2xl shadow-xl w-full max-w-md mx-auto">
+                    </div>
+                    <div class="scroll-reveal lg:order-1">
+                        <h2 class="text-3xl md:text-4xl font-black mb-6">상품권 매입 &amp; 현금화</h2>
+                        <p class="mb-4 leading-relaxed">문화상품권, 해피머니 등 다양한 정품 상품권을 업계 최고 수준으로 매입하여 현금으로 전환해 드립니다. 신속한 정산으로 자금이 필요한 순간 도움을 드립니다.</p>
+                        <h3 class="text-xl font-bold mb-3">거래 가능 상품권</h3>
+                        <ul class="space-y-2">
+                            <li><i class="fa-regular fa-circle-check text-yellow-300 mr-2"></i>문화상품권, 해피머니, 도서문화상품권</li>
+                            <li><i class="fa-regular fa-circle-check text-yellow-300 mr-2"></i>신세계상품권, 롯데백화점상품권 (모바일/지류)</li>
+                            <li><i class="fa-regular fa-circle-check text-yellow-300 mr-2"></i>백화점 상품권, 주유 상품권 등 폭넓게 취급</li>
                         </ul>
                     </div>
                 </div>
             </div>
         </section>
 
+        <section id="info-charge" class="py-16 md:py-24 section-background" style="background-image: url('img/5.jpg');">
+            <div class="section-overlay bg-red-900/70"></div>
+            <div class="container mx-auto px-6 section-content text-white">
+                <div class="grid lg:grid-cols-2 gap-16 items-center">
+                    <div class="scroll-reveal flex justify-center">
+                        <img src="img/so_3.png" alt="정보이용료 결제 이미지" class="rounded-2xl shadow-xl w-full max-w-md mx-auto">
+                    </div>
+                    <div class="scroll-reveal">
+                        <h2 class="text-3xl md:text-4xl font-black mb-6">정보이용료 &amp; 콘텐츠 결제</h2>
+                        <p class="mb-4 leading-relaxed">영화, 음악, 웹툰, 게임 등 다양한 디지털 콘텐츠 요금을 휴대폰 결제로 편리하게 이용해보세요. 빠르고 안정적인 정산을 제공합니다.</p>
+                        <h3 class="text-xl font-bold mb-3">주요 콘텐츠</h3>
+                        <ul class="space-y-2">
+                            <li><i class="fa-regular fa-circle-check text-yellow-300 mr-2"></i>게임 아이템, 유료 앱 결제</li>
+                            <li><i class="fa-regular fa-circle-check text-yellow-300 mr-2"></i>웹툰, 웹소설 정액권 및 단건 결제</li>
+                            <li><i class="fa-regular fa-circle-check text-yellow-300 mr-2"></i>VOD, 음원 스트리밍 서비스 이용료</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-        <!-- FAQ Section -->
-        <section id="faq" class="py-24 bg-white">
+        <section id="credit-card" class="py-16 md:py-24 section-background" style="background-image: url('img/6.jpg');">
+            <div class="section-overlay bg-purple-900/70"></div>
+            <div class="container mx-auto px-6 section-content text-white">
+                <div class="grid lg:grid-cols-2 gap-16 items-center">
+                     <div class="scroll-reveal lg:order-2 flex justify-center">
+                        <img src="img/so_4.jpg" alt="신용카드 현금화 상담 이미지" class="rounded-2xl shadow-xl w-full max-w-md mx-auto">
+                    </div>
+                    <div class="scroll-reveal lg:order-1">
+                        <h2 class="text-3xl md:text-4xl font-black mb-6">신용카드 한도 현금화</h2>
+                        <p class="mb-4 leading-relaxed">사용하지 않는 신용카드 한도를 안전하게 처리할 수 있는 합법적인 방법만을 제안합니다. 카드 결제를 통해 상품권을 구매한 뒤 신속하게 현금화합니다.</p>
+                        <h3 class="text-xl font-bold mb-3">장점</h3>
+                        <ul class="space-y-2">
+                            <li><i class="fa-regular fa-circle-check text-yellow-300 mr-2"></i>신용도에 영향 없이 즉시 현금 확보</li>
+                            <li><i class="fa-regular fa-circle-check text-yellow-300 mr-2"></i>무이자 할부 등 카드 혜택 유지</li>
+                            <li><i class="fa-regular fa-circle-check text-yellow-300 mr-2"></i>급한 자금 필요 시 유용한 대안</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="tips" class="py-16 md:py-24 bg-gradient-to-br from-indigo-50 to-violet-50">
+            <div class="container mx-auto px-6">
+                <div class="max-w-4xl mx-auto">
+                    <h2 class="text-3xl md:text-4xl font-black text-center mb-6 scroll-reveal">한도 관리 &amp; 안전 가이드</h2>
+                    <p class="text-lg text-gray-600 mb-12 text-center leading-relaxed scroll-reveal">소액결제와 상품권 거래를 현명하고 안전하게 이용하는 팁을 알려드립니다.</p>
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div class="scroll-reveal bg-white p-8 rounded-2xl shadow-xl border border-blue-100 flex flex-col items-start">
+                            <div class="bg-blue-100 text-blue-700 p-4 rounded-full mb-4 text-3xl">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold mb-3 text-gray-900">한도 관리 요령</h3>
+                            <ul class="text-gray-700 space-y-3 list-none pl-0">
+                                <li class="flex items-start"><i class="fa-solid fa-check-circle text-blue-500 mr-3 mt-1"></i><span>기본 한도는 30만~100만원 사이이며, 통신사와 이용 패턴에 따라 다르게 책정됩니다.</span></li>
+                                <li class="flex items-start"><i class="fa-solid fa-check-circle text-blue-500 mr-3 mt-1"></i><span>연체 없이 꾸준히 이용하면 한도 상승에 도움이 되며, 통신사 앱에서 직접 조정 가능합니다.</span></li>
+                            </ul>
+                        </div>
+                        <div class="scroll-reveal bg-white p-8 rounded-2xl shadow-xl border border-red-100 flex flex-col items-start">
+                            <div class="bg-red-100 text-red-700 p-4 rounded-full mb-4 text-3xl">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold mb-3 text-gray-900">안전하게 이용하기</h3>
+                            <ul class="text-gray-700 space-y-3 list-none pl-0">
+                                <li class="flex items-start"><i class="fa-solid fa-shield-check text-red-500 mr-3 mt-1"></i><span>소액결제 현금화는 불법입니다. 합법적인 상품권 거래만 이용하세요.</span></li>
+                                <li class="flex items-start"><i class="fa-solid fa-shield-check text-red-500 mr-3 mt-1"></i><span>과도한 결제는 통신비 연체로 이어질 수 있으니, 개인 예산에 맞춰 이용하세요.</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-16 md:py-20 section-background" style="background-image: url('img/7.jpg');">
+             <div class="section-overlay bg-gray-900/70"></div>
+            <div class="container mx-auto px-6 section-content">
+                <div class="max-w-2xl mx-auto bg-white/90 backdrop-blur-sm rounded-2xl shadow-2xl border border-gray-100 overflow-hidden">
+                    <div class="p-5 bg-gradient-to-r from-violet-600 to-indigo-600 text-white text-center font-bold text-xl">
+                        <i class="fas fa-bullhorn mr-2"></i>실시간 상담 현황
+                    </div>
+                    <div id="review-ticker-container" class="h-80 overflow-hidden relative">
+                        <ul id="review-ticker-list" class="absolute top-0 left-0 w-full"></ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="faq" class="py-16 md:py-24 bg-gray-50">
             <div class="container mx-auto px-6">
                 <div class="max-w-3xl mx-auto">
-                    <h2 class="text-3xl md:text-4xl font-black text-center mb-12">자주 묻는 질문 (FAQ)</h2>
+                    <h2 class="text-3xl md:text-4xl font-black text-center mb-12 scroll-reveal">자주 묻는 질문 (FAQ)</h2>
                     <div class="space-y-4">
-                        <div class="scroll-reveal bg-gray-50 rounded-lg">
-                            <details class="p-6 cursor-pointer">
-                                <summary class="font-bold text-lg flex justify-between items-center">
-                                    <span>수수료는 어떻게 되나요?</span>
-                                    <i class="fas fa-chevron-down transform transition-transform"></i>
-                                </summary>
-                                <p class="mt-4 text-gray-600">상품권 종류 및 시세에 따라 변동될 수 있으며, 상담 시 고객님께 투명하게 안내해 드립니다. 업계 최저 수준의 수수료를 약속드립니다.</p>
-                            </details>
-                        </div>
-                        <div class="scroll-reveal bg-gray-50 rounded-lg">
-                            <details class="p-6 cursor-pointer">
-                                <summary class="font-bold text-lg flex justify-between items-center">
-                                    <span>정말 안전한가요?</span>
-                                    <i class="fas fa-chevron-down transform transition-transform"></i>
-                                </summary>
-                                <p class="mt-4 text-gray-600">네, 성수티켓은 정식 사업자 등록 업체로 안전한 거래를 보장합니다. 고객님의 정보는 암호화되어 안전하게 관리되며, 거래 외 목적으로 절대 사용되지 않습니다.</p>
-                            </details>
-                        </div>
-                         <div class="scroll-reveal bg-gray-50 rounded-lg">
-                            <details class="p-6 cursor-pointer">
-                                <summary class="font-bold text-lg flex justify-between items-center">
-                                    <span>이용 시간은 어떻게 되나요?</span>
-                                    <i class="fas fa-chevron-down transform transition-transform"></i>
-                                </summary>
-                                <p class="mt-4 text-gray-600">24시간 365일 연중무휴로 운영되며, 새벽이나 공휴일에도 관계없이 언제든지 편하게 문의하고 서비스를 이용하실 수 있습니다.</p>
-                            </details>
-                        </div>
-                        <div class="scroll-reveal bg-gray-50 rounded-lg">
-                            <details class="p-6 cursor-pointer">
-                                <summary class="font-bold text-lg flex justify-between items-center">
-                                    <span>거래 절차가 복잡하지 않나요?</span>
-                                    <i class="fas fa-chevron-down transform transition-transform"></i>
-                                </summary>
-                                <p class="mt-4 text-gray-600">아니요, 단 한 번의 본인 인증으로 빠르고 간편하게 이용하실 수 있습니다. 두 번째 이용부터는 인증 절차 없이 더욱 신속한 거래가 가능합니다.</p>
-                            </details>
-                        </div>
+                        <div class="scroll-reveal bg-white rounded-lg shadow-lg border border-gray-100"><details class="p-6 cursor-pointer"><summary class="font-bold text-lg flex justify-between items-center"><span>수수료는 어떻게 되나요?</span><i class="fas fa-chevron-down faq-icon"></i></summary><p class="mt-4 text-gray-600 border-t pt-4">상품권 종류 및 시세에 따라 변동될 수 있으며, 상담 시 투명하게 안내해 드립니다. 업계 최저 수준의 수수료를 약속드립니다.</p></details></div>
+                        <div class="scroll-reveal bg-white rounded-lg shadow-lg border border-gray-100"><details class="p-6 cursor-pointer"><summary class="font-bold text-lg flex justify-between items-center"><span>정말 안전한가요?</span><i class="fas fa-chevron-down faq-icon"></i></summary><p class="mt-4 text-gray-600 border-t pt-4">네, 성수티켓은 정식 사업자 등록 업체로 안전한 거래를 보장합니다. 고객님의 정보는 암호화되어 안전하게 관리됩니다.</p></details></div>
+                        <div class="scroll-reveal bg-white rounded-lg shadow-lg border border-gray-100"><details class="p-6 cursor-pointer"><summary class="font-bold text-lg flex justify-between items-center"><span>이용 시간은 어떻게 되나요?</span><i class="fas fa-chevron-down faq-icon"></i></summary><p class="mt-4 text-gray-600 border-t pt-4">24시간 365일 연중무휴로 운영되며, 새벽이나 공휴일에도 언제든지 편하게 문의하고 이용하실 수 있습니다.</p></details></div>
+                        <div class="scroll-reveal bg-white rounded-lg shadow-lg border border-gray-100"><details class="p-6 cursor-pointer"><summary class="font-bold text-lg flex justify-between items-center"><span>거래 절차가 복잡하지 않나요?</span><i class="fas fa-chevron-down faq-icon"></i></summary><p class="mt-4 text-gray-600 border-t pt-4">아니요, 단 한 번의 본인 인증으로 빠르고 간편하게 이용하실 수 있습니다. 두 번째 이용부터는 인증 절차 없이 더욱 신속합니다.</p></details></div>
                     </div>
                 </div>
             </div>
         </section>
     </main>
 
-    <!-- Contact Modal -->
     <div id="contact-modal" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 hidden">
         <div id="modal-content" class="bg-white rounded-2xl shadow-xl p-8 max-w-sm w-full mx-4 text-center transform transition-all duration-300 ease-out opacity-0 -translate-y-4">
             <button id="close-modal-button" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-2xl z-10">&times;</button>
             <h3 class="text-2xl font-bold mb-2">상담 채널 선택</h3>
             <p class="text-gray-500 mb-8">가장 편하신 방법으로 문의해주세요.</p>
             <div class="space-y-4">
-                 <a href="#" class="w-full bg-yellow-400 text-gray-800 font-bold py-4 px-10 rounded-full text-lg hover:bg-yellow-500 transition shadow-lg flex items-center justify-center">
-                    <i class="fa-solid fa-comment mr-3"></i>카카오톡 상담
-                </a>
-                <a href="#" class="w-full bg-gray-800 text-white font-bold py-4 px-10 rounded-full text-lg hover:bg-gray-900 transition shadow-lg flex items-center justify-center">
-                    <i class="fa-solid fa-phone mr-3"></i>전화 상담
-                </a>
+                 <a href="#" class="w-full bg-yellow-400 text-gray-800 font-bold py-4 px-10 rounded-full text-lg hover:bg-yellow-500 transition shadow-lg flex items-center justify-center"><i class="fa-solid fa-comment mr-3"></i>카카오톡 상담</a>
+                <a href="#" class="w-full bg-gray-800 text-white font-bold py-4 px-10 rounded-full text-lg hover:bg-gray-900 transition shadow-lg flex items-center justify-center"><i class="fa-solid fa-phone mr-3"></i>전화 상담</a>
             </div>
         </div>
     </div>
 
-    <!-- Footer -->
     <footer class="bg-gray-800 text-gray-400 py-12">
         <div class="container mx-auto px-6 text-center text-sm">
             <p class="font-bold text-lg text-white mb-4">성수티켓</p>
@@ -280,119 +407,76 @@
         </div>
     </footer>
     
-    <!-- Floating CTA -->
     <div class="fixed bottom-6 right-6 space-y-3 z-40">
-        <a href="#" title="전화 상담" class="bg-gray-800 text-white w-16 h-16 rounded-full flex items-center justify-center shadow-lg transform hover:scale-110 transition">
-           <i class="fas fa-phone text-2xl"></i>
-       </a>
-       <a href="#" title="카카오톡 상담" class="bg-yellow-400 text-gray-800 w-16 h-16 rounded-full flex items-center justify-center shadow-lg transform hover:scale-110 transition">
-           <i class="fas fa-comment text-2xl"></i>
-       </a>
+       <a href="#" title="전화 상담" class="bg-gray-800 text-white w-16 h-16 rounded-full flex items-center justify-center shadow-lg transform hover:scale-110 transition"><i class="fas fa-phone text-2xl"></i></a>
+       <a href="#" title="카카오톡 상담" class="bg-yellow-400 text-gray-800 w-16 h-16 rounded-full flex items-center justify-center shadow-lg transform hover:scale-110 transition"><i class="fas fa-comment text-2xl"></i></a>
    </div>
 
     <script>
         // Mobile Menu Toggle
         const mobileMenuButton = document.getElementById('mobile-menu-button');
         const mobileMenu = document.getElementById('mobile-menu');
-        mobileMenuButton.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
+        mobileMenuButton.addEventListener('click', () => { mobileMenu.classList.toggle('hidden'); });
 
         // Scroll Reveal Animation
         const scrollElements = document.querySelectorAll('.scroll-reveal');
-        const elementInView = (el, dividend = 1) => {
-            const elementTop = el.getBoundingClientRect().top;
-            return (
-                elementTop <= (window.innerHeight || document.documentElement.clientHeight) / dividend
-            );
-        };
-        const displayScrollElement = (element) => {
-            element.classList.add('visible');
-        };
-        const handleScrollAnimation = () => {
-            scrollElements.forEach((el) => {
-                if (elementInView(el, 1.25)) {
-                    displayScrollElement(el);
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
                 }
             });
-        };
-        window.addEventListener('scroll', handleScrollAnimation);
-        handleScrollAnimation();
-
-        // FAQ Accordion Icon Rotation
-        const detailsElements = document.querySelectorAll('details');
-        detailsElements.forEach(details => {
-            details.addEventListener('toggle', event => {
-                const icon = details.querySelector('i.fa-chevron-down');
-                icon.style.transform = details.open ? 'rotate(180deg)' : 'rotate(0deg)';
-            });
-        });
+        }, { threshold: 0.1 });
+        scrollElements.forEach((el) => { observer.observe(el); });
 
         // Review Ticker
         const tickerList = document.getElementById('review-ticker-list');
-        const reviews = [
-            '김*아 (010-****-5678) 님, 상담 신청 완료',
-            '이*준 (010-****-1234) 님, 입금 처리 완료',
-            '박*현 (010-****-9876) 님, 상담 신청 완료',
-            '최*민 (010-****-4321) 님, 상담 신청 완료',
-            '정*윤 (010-****-8765) 님, 입금 처리 완료',
-            '강*우 (010-****-3456) 님, 상담 신청 완료',
-            '윤*희 (010-****-7777) 님, 상담 신청 완료',
-            '조*훈 (010-****-8888) 님, 입금 처리 완료'
-        ];
+        if (tickerList) {
+            const reviews = [
+                '김*아 (010-****-5678) 님, 상담 신청 완료',
+                '이*준 (010-****-1234) 님, 입금 처리 완료',
+                '박*현 (010-****-9876) 님, 상담 신청 완료',
+                '최*민 (010-****-4321) 님, 상담 신청 완료',
+                '정*윤 (010-****-8765) 님, 입금 처리 완료',
+                '강*우 (010-****-3456) 님, 상담 신청 완료',
+                '윤*희 (010-****-7777) 님, 상담 신청 완료',
+                '조*훈 (010-****-8888) 님, 입금 처리 완료',
+                '한*지 (010-****-2468) 님, 상담 신청 완료',
+                '서*진 (010-****-1357) 님, 입금 처리 완료',
+                '오*석 (010-****-3690) 님, 상담 신청 완료',
+                '배*연 (010-****-7890) 님, 입금 처리 완료',
+                '홍*주 (010-****-1111) 님, 상담 신청 완료',
+                '신*성 (010-****-2222) 님, 입금 처리 완료',
+                '문*영 (010-****-3333) 님, 상담 신청 완료',
+                '임*수 (010-****-4444) 님, 상담 신청 완료',
+                '장*은 (010-****-5555) 님, 입금 처리 완료',
+                '고*찬 (010-****-6666) 님, 상담 신청 완료',
+                '황*림 (010-****-9999) 님, 상담 신청 완료',
+                '김*훈 (010-****-0000) 님, 입금 처리 완료'
+            ];
+            const populateTicker = () => {
+                reviews.forEach(review => {
+                    const li = document.createElement('li');
+                    li.className = 'py-4 px-6 border-b border-gray-100 text-gray-700 text-center text-lg';
+                    li.textContent = review;
+                    tickerList.appendChild(li);
+                });
+            };
+            populateTicker();
+            const reviewItems = tickerList.querySelectorAll('li');
+            reviewItems.forEach(item => { tickerList.appendChild(item.cloneNode(true)); });
+        }
         
-        const populateTicker = () => {
-            reviews.forEach(review => {
-                const li = document.createElement('li');
-                li.className = 'py-3 px-6 border-b border-gray-100 text-gray-700 text-center text-lg';
-                li.textContent = review;
-                tickerList.appendChild(li);
-            });
-        };
-
-        populateTicker();
-        // Clone for smooth infinite animation
-        const reviewItems = tickerList.querySelectorAll('li');
-        reviewItems.forEach(item => {
-            tickerList.appendChild(item.cloneNode(true));
-        });
-
-
         // Contact Modal Logic
         const modal = document.getElementById('contact-modal');
         const modalContent = document.getElementById('modal-content');
         const openModalButtons = document.querySelectorAll('.open-modal-button');
         const closeModalButton = document.getElementById('close-modal-button');
-
-        const openModal = () => {
-            modal.classList.remove('hidden');
-            setTimeout(() => { // Allow display change to register before starting transition
-                modalContent.classList.remove('opacity-0', '-translate-y-4');
-            }, 10);
-        };
-
-        const closeModal = () => {
-            modalContent.classList.add('opacity-0', '-translate-y-4');
-            setTimeout(() => { // Wait for transition to finish before hiding
-                modal.classList.add('hidden');
-            }, 300);
-        };
-
-        openModalButtons.forEach(button => {
-            button.addEventListener('click', (e) => {
-                e.preventDefault();
-                openModal();
-            });
-        });
-
+        const openModal = () => { modal.classList.remove('hidden'); setTimeout(() => { modalContent.classList.remove('opacity-0', '-translate-y-4'); }, 10); };
+        const closeModal = () => { modalContent.classList.add('opacity-0', '-translate-y-4'); setTimeout(() => { modal.classList.add('hidden'); }, 300); };
+        openModalButtons.forEach(button => { button.addEventListener('click', (e) => { e.preventDefault(); openModal(); }); });
         closeModalButton.addEventListener('click', closeModal);
-        modal.addEventListener('click', (e) => {
-            // Close modal if clicking on the background overlay
-            if (e.target === modal) {
-                closeModal();
-            }
-        });
-
+        modal.addEventListener('click', (e) => { if (e.target === modal) { closeModal(); } });
     </script>
 </body>
 </html>
