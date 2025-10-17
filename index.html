@@ -87,6 +87,81 @@
             transform: translateY(-10px);
             box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
         }
+
+        /* Custom styles for the new price slider */
+        #price-slider {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            outline: none;
+            transition: background 0.3s;
+        }
+
+        #price-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #FBBF24; /* yellow-400 */
+            cursor: pointer;
+            border: 4px solid #111827; /* dark background color */
+            box-shadow: 0 0 20px rgba(251, 191, 36, 0.5);
+            transition: transform 0.2s ease;
+        }
+
+        #price-slider::-moz-range-thumb {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #FBBF24;
+            cursor: pointer;
+            border: 4px solid #111827;
+            box-shadow: 0 0 20px rgba(251, 191, 36, 0.5);
+        }
+
+        #price-slider:active::-webkit-slider-thumb {
+            transform: scale(1.2);
+        }
+
+        /* Gradient fill for the slider track */
+        .slider-container {
+            position: relative;
+        }
+        #slider-fill {
+            position: absolute;
+            height: 8px;
+            background: linear-gradient(to right, #FCD34D, #FBBF24); /* shades of yellow */
+            border-radius: 4px;
+            top: 50%;
+            transform: translateY(-50%);
+            left: 0;
+            pointer-events: none;
+        }
+
+        /* Aurora background effect */
+        @keyframes aurora {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .aurora-background {
+            background: radial-gradient(ellipse at top, rgba(124, 58, 237, 0.15), transparent 70%), 
+                        radial-gradient(ellipse at bottom, rgba(251, 191, 36, 0.1), transparent 70%);
+            background-size: 200% 200%;
+            animation: aurora 15s ease-in-out infinite;
+        }
+        #star-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
     </style>
 </head>
 <body class="text-gray-800">
@@ -383,6 +458,47 @@
                 </div>
             </div>
         </section>
+
+        <!-- Final, most beautiful price calculator section -->
+        <section id="price-calculator" class="relative py-24 md:py-32 bg-gray-900 text-white scroll-reveal overflow-hidden">
+            <div class="absolute inset-0 aurora-background"></div>
+            <canvas id="star-canvas"></canvas>
+             <!-- Halo effect -->
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-yellow-400/5 rounded-full blur-3xl" style="z-index: 0;"></div>
+            
+            <div class="relative container mx-auto px-6" style="z-index: 2;">
+                <div class="max-w-4xl mx-auto grid md:grid-cols-2 gap-10 md:gap-16 items-center">
+                    <div class="text-center md:text-left">
+                        <div class="w-24 h-24 bg-yellow-400 rounded-full flex items-center justify-center shadow-xl shadow-yellow-500/40 mx-auto md:mx-0 ring-4 ring-yellow-400/20">
+                             <i class="fas fa-won-sign text-5xl text-gray-900"></i>
+                        </div>
+                        <h2 class="text-4xl md:text-5xl font-black mt-8">신청 금액 계산기</h2>
+                        <p class="text-slate-300 mt-4 max-w-sm mx-auto md:mx-0 text-lg">원하는 금액을 선택하고 즉시 상담을 통해 빠르고 안전하게 입금 받으세요.</p>
+                    </div>
+                    
+                    <div class="bg-gray-900/50 backdrop-blur-xl p-8 rounded-3xl border border-slate-700/50 shadow-2xl">
+                         <div class="text-center mb-8">
+                            <p class="text-lg font-medium text-yellow-300 tracking-wider">선택한 금액</p>
+                            <div id="amount-display" class="text-5xl md:text-6xl font-extrabold tracking-tight bg-gradient-to-r from-slate-100 to-yellow-300 bg-clip-text text-transparent mt-2">100,000원</div>
+                        </div>
+    
+                        <div class="slider-container relative my-6 flex items-center">
+                            <div id="slider-fill"></div>
+                            <input type="range" id="price-slider" min="100000" max="1000000" step="10000" value="100000" class="w-full z-10">
+                        </div>
+                        <div class="flex justify-between text-base font-bold text-slate-300 -mt-2">
+                            <span>10만원</span>
+                            <span>100만원</span>
+                        </div>
+    
+                        <button class="open-modal-button w-full mt-10 bg-yellow-400 text-slate-900 font-bold py-4 px-8 rounded-full text-xl hover:bg-yellow-500 transition-transform hover:scale-105 shadow-2xl shadow-yellow-500/40 flex items-center justify-center gap-3">
+                            <i class="fas fa-paper-plane"></i>
+                            <span>상담 신청하고 입금받기</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
 
     <div id="contact-modal" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 hidden">
@@ -477,6 +593,102 @@
         openModalButtons.forEach(button => { button.addEventListener('click', (e) => { e.preventDefault(); openModal(); }); });
         closeModalButton.addEventListener('click', closeModal);
         modal.addEventListener('click', (e) => { if (e.target === modal) { closeModal(); } });
+        
+        // New Price Slider Logic
+        const priceSlider = document.getElementById('price-slider');
+        const sliderFill = document.getElementById('slider-fill');
+        const amountDisplay = document.getElementById('amount-display');
+
+        if (priceSlider) {
+            const updateCalculator = () => {
+                const value = parseInt(priceSlider.value, 10);
+                const min = parseInt(priceSlider.min, 10);
+                const max = parseInt(priceSlider.max, 10);
+
+                // Update text display
+                const formatCurrency = (num) => num.toLocaleString('ko-KR') + '원';
+                amountDisplay.textContent = formatCurrency(value);
+
+                // Update slider fill width
+                const percentage = ((value - min) / (max - min)) * 100;
+                sliderFill.style.width = `${percentage}%`;
+            };
+            
+            // Set initial values on page load
+            updateCalculator();
+            
+            // Add event listener for slider changes
+            priceSlider.addEventListener('input', updateCalculator);
+        }
+
+        // Starfield Animation
+        const starCanvas = document.getElementById('star-canvas');
+        if (starCanvas) {
+            const ctx = starCanvas.getContext('2d');
+            let stars = [];
+            let animationFrameId;
+
+            const setup = () => {
+                const section = document.getElementById('price-calculator');
+                starCanvas.width = section.offsetWidth;
+                starCanvas.height = section.offsetHeight;
+                stars = [];
+                const starCount = Math.floor((starCanvas.width * starCanvas.height) / 10000);
+                for (let i = 0; i < starCount; i++) {
+                    stars.push({
+                        x: Math.random() * starCanvas.width,
+                        y: Math.random() * starCanvas.height,
+                        radius: Math.random() * 1.5 + 0.5,
+                        vx: (Math.random() - 0.5) * 0.3,
+                        vy: (Math.random() - 0.5) * 0.3,
+                        opacity: Math.random() * 0.5 + 0.2
+                    });
+                }
+            };
+
+            const draw = () => {
+                ctx.clearRect(0, 0, starCanvas.width, starCanvas.height);
+                ctx.fillStyle = "rgba(255, 255, 255, 0.8)";
+                stars.forEach(star => {
+                    ctx.beginPath();
+                    ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+                    ctx.globalAlpha = star.opacity;
+                    ctx.fill();
+                    
+                    star.x += star.vx;
+                    star.y += star.vy;
+
+                    if (star.x < 0 || star.x > starCanvas.width) star.vx = -star.vx;
+                    if (star.y < 0 || star.y > starCanvas.height) star.vy = -star.vy;
+                });
+                ctx.globalAlpha = 1;
+                animationFrameId = requestAnimationFrame(draw);
+            };
+
+            const init = () => {
+                setup();
+                draw();
+            };
+            
+            window.addEventListener('resize', () => {
+                cancelAnimationFrame(animationFrameId);
+                init();
+            });
+
+            // Use Intersection Observer to only run animation when visible
+            const observer = new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting) {
+                    if(!animationFrameId) {
+                       init();
+                    }
+                } else {
+                    cancelAnimationFrame(animationFrameId);
+                    animationFrameId = null;
+                }
+            }, { threshold: 0.1 });
+
+            observer.observe(document.getElementById('price-calculator'));
+        }
     </script>
 </body>
 </html>
