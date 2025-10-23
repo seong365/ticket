@@ -6,6 +6,13 @@
     <title>성수티켓 - 가장 빠르고 안전한 상품권 현금 교환</title>
     <meta name="description" content="24시간 365일 복잡한 절차 없이 평균 3분 내 입금 완료. 성수티켓은 신뢰 기반의 정품 상품권 거래 서비스입니다.">
     <meta name="keywords" content="상품권매입, 상품권현금화, 상품권교환, 모바일상품권판매, 소액결제, 휴대폰소액결제, 즉시입금, 실시간정산, 안전거래, 정품상품권, 중개플랫폼, 프리미엄티켓솔루션, 24시간입금, 정산서비스">
+    
+    <!-- 1. meta image 태그 추가 -->
+    <meta property="og:image" content="meta.jpg">
+
+    <!-- 파비콘 추가 -->
+    <link rel="icon" href="img/Fabicon.ico" type="image/x-icon">
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -227,7 +234,8 @@
                         </div>
                         <h3 class="text-2xl font-bold mb-2 text-gray-900">소액결제 한도</h3>
                         <p class="text-gray-500 text-sm mb-4">휴대폰만으로 간편하게</p>
-                        <p class="text-4xl font-extrabold text-violet-600">100<span class="text-2xl font-semibold">만원</span></p>
+                        <!-- 1. 한도 200만원으로 수정 -->
+                        <p class="text-4xl font-extrabold text-violet-600">200<span class="text-2xl font-semibold">만원</span></p>
                         <p class="text-gray-600 font-medium mt-1">최대 한도</p>
                     </div>
                     
@@ -237,7 +245,8 @@
                         </div>
                         <h3 class="text-2xl font-bold mb-2 text-gray-900">정보이용료 한도</h3>
                         <p class="text-gray-500 text-sm mb-4">다양한 콘텐츠 결제</p>
-                        <p class="text-4xl font-extrabold text-blue-500">100<span class="text-2xl font-semibold">만원</span></p>
+                        <!-- 2. 한도 200만원으로 수정 -->
+                        <p class="text-4xl font-extrabold text-blue-500">200<span class="text-2xl font-semibold">만원</span></p>
                         <p class="text-gray-600 font-medium mt-1">최대 한도</p>
                     </div>
         
@@ -277,7 +286,8 @@
         <section id="process" class="py-16 md:py-24 bg-white">
             <div class="container mx-auto px-6 text-center">
                 <h2 class="text-3xl md:text-4xl font-black mb-4 scroll-reveal">단 3단계면 충분합니다</h2>
-                <p class="text-lg text-gray-500 mb-12 md:mb-16 max-w-2xl mx-auto scroll-reveal">복잡한 서류나 절차는 이제 그만! 누구나 쉽고 빠르게 이용할 수 있는 성수티켓의 간편 서비스</p>
+                <!-- 1. '간편 서비스' 줄바꿈 방지를 위해 텍스트 크기 조정 (text-lg -> text-base sm:text-lg) -->
+                <p class="text-base sm:text-lg text-gray-500 mb-12 md:mb-16 max-w-2xl mx-auto scroll-reveal">복잡한 서류나 절차는 이제 그만! 누구나 쉽고 빠르게 이용할 수 있는 성수티켓의 간편 서비스</p>
                 <div class="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-0 relative">
                     <div class="flex-1 scroll-reveal relative z-10">
                         <div class="bg-gradient-to-br from-violet-600 to-indigo-600 text-white w-24 h-24 rounded-full flex items-center justify-center text-4xl mx-auto mb-6 shadow-lg shadow-violet-500/30">
@@ -479,19 +489,44 @@
                     <div class="bg-gray-900/50 backdrop-blur-xl p-8 rounded-3xl border border-slate-700/50 shadow-2xl">
                          <div class="text-center mb-8">
                             <p class="text-lg font-medium text-yellow-300 tracking-wider">선택한 금액</p>
-                            <div id="amount-display" class="text-5xl md:text-6xl font-extrabold tracking-tight bg-gradient-to-r from-slate-100 to-yellow-300 bg-clip-text text-transparent mt-2">100,000원</div>
+                            
+                            <!-- 1. 버튼 레이아웃 수정: justify-between으로 양쪽 정렬, gap-3 유지 -->
+                            <div class="flex items-center justify-between gap-3 mt-2">
+                                <!-- 2. 마이너스 마진(-ml-6)을 추가하여 버튼을 바깥쪽으로 더 밀어냄 -->
+                                <button id="decrease-amount" aria-label="금액 감소" 
+                                    class="w-10 h-10 rounded-full bg-gray-700 text-yellow-300 text-2xl font-bold hover:bg-gray-600 transition-colors duration-200 shadow-md -ml-6">
+                                    &minus;
+                                </button>
+                                
+                                <div class="min-w-0 text-center">
+                                    <div id="amount-display" class="text-4xl lg:text-5xl font-extrabold tracking-tight bg-gradient-to-r from-slate-100 to-yellow-300 bg-clip-text text-transparent whitespace-nowrap">10,000원</div>
+                                </div>
+                                
+                                <!-- 3. 마이너스 마진(-mr-6)을 추가하여 버튼을 바깥쪽으로 더 밀어냄 -->
+                                <button id="increase-amount" aria-label="금액 증가" 
+                                    class="w-10 h-10 rounded-full bg-gray-700 text-yellow-300 text-2xl font-bold hover:bg-gray-600 transition-colors duration-200 shadow-md -mr-6">
+                                    +
+                                </button>
+                            </div>
                         </div>
     
                         <div class="slider-container relative my-6 flex items-center">
                             <div id="slider-fill"></div>
-                            <input type="range" id="price-slider" min="100000" max="1000000" step="10000" value="100000" class="w-full z-10">
+                            <!-- 1. min, max, step, value 수정 (1만, 1000만, 1만, 1만) -->
+                            <input type="range" id="price-slider" min="10000" max="10000000" step="10000" value="10000" class="w-full z-10">
                         </div>
                         <div class="flex justify-between text-base font-bold text-slate-300 -mt-2">
-                            <span>10만원</span>
-                            <span>100만원</span>
+                            <!-- 2. 텍스트 수정 (1만원, 1000만원) -->
+                            <span>1만원</span>
+                            <span>1000만원</span>
+                        </div>
+
+                        <!-- 1. 금액에 따른 동적 텍스트 표시 영역 추가 -->
+                        <div id="payment-method-info" class="text-center text-slate-400 mt-6 min-h-[2.5rem] flex items-center justify-center">
+                            <span class="text-sm font-medium py-1 px-3 bg-slate-700/50 rounded-full">진행 가능: 소액결제 / 정보이용료 / 신용카드</span>
                         </div>
     
-                        <button class="open-modal-button w-full mt-10 bg-yellow-400 text-slate-900 font-bold py-4 px-8 rounded-full text-xl hover:bg-yellow-500 transition-transform hover:scale-105 shadow-2xl shadow-yellow-500/40 flex items-center justify-center gap-3">
+                        <button class="open-modal-button w-full mt-6 bg-yellow-400 text-slate-900 font-bold py-4 px-8 rounded-full text-xl hover:bg-yellow-500 transition-transform hover:scale-105 shadow-2xl shadow-yellow-500/40 flex items-center justify-center gap-3">
                             <i class="fas fa-paper-plane"></i>
                             <span>상담 신청하고 입금받기</span>
                         </button>
@@ -515,11 +550,8 @@
 
     <footer class="bg-gray-800 text-gray-400 py-12">
         <div class="container mx-auto px-6 text-center text-sm">
-            <p class="font-bold text-lg text-white mb-4">성수티켓</p>
-            <p class="mb-1">대표: 홍길동 | 사업자등록번호: 123-45-67890</p>
-            <p class="mb-1">주소: 서울특별시 성동구 성수동 (상세주소)</p>
-            <p class="mb-6">고객센터: 010-1234-5678</p>
-            <p>&copy; 2024 Seongsu Ticket. All Rights Reserved.</p>
+            <!-- 1. footer 내용 수정 -->
+            <p>ⓒ성수티켓</p>
         </div>
     </footer>
     
@@ -548,6 +580,7 @@
         // Review Ticker
         const tickerList = document.getElementById('review-ticker-list');
         if (tickerList) {
+            // 1. 전화번호 랜덤하게 수정
             const reviews = [
                 '김*아 (010-****-5678) 님, 상담 신청 완료',
                 '이*준 (010-****-1234) 님, 입금 처리 완료',
@@ -555,20 +588,20 @@
                 '최*민 (010-****-4321) 님, 상담 신청 완료',
                 '정*윤 (010-****-8765) 님, 입금 처리 완료',
                 '강*우 (010-****-3456) 님, 상담 신청 완료',
-                '윤*희 (010-****-7777) 님, 상담 신청 완료',
-                '조*훈 (010-****-8888) 님, 입금 처리 완료',
+                '윤*희 (010-****-8241) 님, 상담 신청 완료',
+                '조*훈 (010-****-3159) 님, 입금 처리 완료',
                 '한*지 (010-****-2468) 님, 상담 신청 완료',
                 '서*진 (010-****-1357) 님, 입금 처리 완료',
                 '오*석 (010-****-3690) 님, 상담 신청 완료',
                 '배*연 (010-****-7890) 님, 입금 처리 완료',
-                '홍*주 (010-****-1111) 님, 상담 신청 완료',
-                '신*성 (010-****-2222) 님, 입금 처리 완료',
-                '문*영 (010-****-3333) 님, 상담 신청 완료',
-                '임*수 (010-****-4444) 님, 상담 신청 완료',
-                '장*은 (010-****-5555) 님, 입금 처리 완료',
-                '고*찬 (010-****-6666) 님, 상담 신청 완료',
-                '황*림 (010-****-9999) 님, 상담 신청 완료',
-                '김*훈 (010-****-0000) 님, 입금 처리 완료'
+                '홍*주 (010-****-5219) 님, 상담 신청 완료',
+                '신*성 (010-****-7304) 님, 입금 처리 완료',
+                '문*영 (010-****-6921) 님, 상담 신청 완료',
+                '임*수 (010-****-4835) 님, 상담 신청 완료',
+                '장*은 (010-****-6227) 님, 입금 처리 완료',
+                '고*찬 (010-****-1009) 님, 상담 신청 완료',
+                '황*림 (010-****-9582) 님, 상담 신청 완료',
+                '김*훈 (010-****-0347) 님, 입금 처리 완료'
             ];
             const populateTicker = () => {
                 reviews.forEach(review => {
@@ -598,27 +631,55 @@
         const priceSlider = document.getElementById('price-slider');
         const sliderFill = document.getElementById('slider-fill');
         const amountDisplay = document.getElementById('amount-display');
+        const decreaseBtn = document.getElementById('decrease-amount');
+        const increaseBtn = document.getElementById('increase-amount');
+        const paymentMethodInfo = document.getElementById('payment-method-info'); // 1. 동적 텍스트 요소 선택
 
         if (priceSlider) {
-            const updateCalculator = () => {
-                const value = parseInt(priceSlider.value, 10);
-                const min = parseInt(priceSlider.min, 10);
-                const max = parseInt(priceSlider.max, 10);
+            const formatCurrency = (num) => num.toLocaleString('ko-KR') + '원';
+            const step = parseInt(priceSlider.step, 10);
+            const min = parseInt(priceSlider.min, 10);
+            const max = parseInt(priceSlider.max, 10);
 
+            const updateCalculator = (newValue) => {
+                const value = Math.max(min, Math.min(max, newValue)); // Ensure value is within bounds
+                
                 // Update text display
-                const formatCurrency = (num) => num.toLocaleString('ko-KR') + '원';
                 amountDisplay.textContent = formatCurrency(value);
 
                 // Update slider fill width
                 const percentage = ((value - min) / (max - min)) * 100;
                 sliderFill.style.width = `${percentage}%`;
+                
+                // Update slider value
+                priceSlider.value = value;
+
+                // 1. Update dynamic payment method text
+                if (value > 2000000) { // 200만원 초과
+                    paymentMethodInfo.innerHTML = '<span class="text-sm font-medium py-1 px-3 bg-slate-700/50 rounded-full">진행 가능: 신용카드</span>';
+                } else { // 200만원 이하
+                    paymentMethodInfo.innerHTML = '<span class="text-sm font-medium py-1 px-3 bg-slate-700/50 rounded-full">진행 가능: 소액결제 / 정보이용료 / 신용카드</span>';
+                }
             };
             
             // Set initial values on page load
-            updateCalculator();
+            updateCalculator(parseInt(priceSlider.value, 10));
             
             // Add event listener for slider changes
-            priceSlider.addEventListener('input', updateCalculator);
+            priceSlider.addEventListener('input', (e) => {
+                updateCalculator(parseInt(e.target.value, 10));
+            });
+
+            // Add event listeners for +/- buttons
+            decreaseBtn.addEventListener('click', () => {
+                const currentValue = parseInt(priceSlider.value, 10);
+                updateCalculator(currentValue - step);
+            });
+
+            increaseBtn.addEventListener('click', () => {
+                const currentValue = parseInt(priceSlider.value, 10);
+                updateCalculator(currentValue + step);
+            });
         }
 
         // Starfield Animation
@@ -692,4 +753,5 @@
     </script>
 </body>
 </html>
+
 
