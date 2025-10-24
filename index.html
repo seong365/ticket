@@ -234,8 +234,8 @@
                         </div>
                         <h3 class="text-2xl font-bold mb-2 text-gray-900">소액결제 한도</h3>
                         <p class="text-gray-500 text-sm mb-4">휴대폰만으로 간편하게</p>
-                        <!-- 1. 한도 200만원으로 수정 -->
-                        <p class="text-4xl font-extrabold text-violet-600">200<span class="text-2xl font-semibold">만원</span></p>
+                        <!-- 1. 한도 100만원으로 수정 -->
+                        <p class="text-4xl font-extrabold text-violet-600">100<span class="text-2xl font-semibold">만원</span></p>
                         <p class="text-gray-600 font-medium mt-1">최대 한도</p>
                     </div>
                     
@@ -245,8 +245,8 @@
                         </div>
                         <h3 class="text-2xl font-bold mb-2 text-gray-900">정보이용료 한도</h3>
                         <p class="text-gray-500 text-sm mb-4">다양한 콘텐츠 결제</p>
-                        <!-- 2. 한도 200만원으로 수정 -->
-                        <p class="text-4xl font-extrabold text-blue-500">200<span class="text-2xl font-semibold">만원</span></p>
+                        <!-- 2. 한도 100만원으로 수정 -->
+                        <p class="text-4xl font-extrabold text-blue-500">100<span class="text-2xl font-semibold">만원</span></p>
                         <p class="text-gray-600 font-medium mt-1">최대 한도</p>
                     </div>
         
@@ -521,10 +521,12 @@
                             <span>1000만원</span>
                         </div>
 
-                        <!-- 1. 금액에 따른 동적 텍스트 표시 영역 추가 -->
+                        <!-- 3. '진행 가능' 텍스트 영역 삭제됨 -->
+                        <!-- 
                         <div id="payment-method-info" class="text-center text-slate-400 mt-6 min-h-[2.5rem] flex items-center justify-center">
                             <span class="text-sm font-medium py-1 px-3 bg-slate-700/50 rounded-full">진행 가능: 소액결제 / 정보이용료 / 신용카드</span>
                         </div>
+                        -->
     
                         <button class="open-modal-button w-full mt-6 bg-yellow-400 text-slate-900 font-bold py-4 px-8 rounded-full text-xl hover:bg-yellow-500 transition-transform hover:scale-105 shadow-2xl shadow-yellow-500/40 flex items-center justify-center gap-3">
                             <i class="fas fa-paper-plane"></i>
@@ -633,7 +635,8 @@
         const amountDisplay = document.getElementById('amount-display');
         const decreaseBtn = document.getElementById('decrease-amount');
         const increaseBtn = document.getElementById('increase-amount');
-        const paymentMethodInfo = document.getElementById('payment-method-info'); // 1. 동적 텍스트 요소 선택
+        // 3. '진행 가능' 텍스트 요소 선택 라인 삭제
+        // const paymentMethodInfo = document.getElementById('payment-method-info');
 
         if (priceSlider) {
             const formatCurrency = (num) => num.toLocaleString('ko-KR') + '원';
@@ -654,12 +657,14 @@
                 // Update slider value
                 priceSlider.value = value;
 
-                // 1. Update dynamic payment method text
+                // 3. '진행 가능' 텍스트 로직 삭제
+                /*
                 if (value > 2000000) { // 200만원 초과
                     paymentMethodInfo.innerHTML = '<span class="text-sm font-medium py-1 px-3 bg-slate-700/50 rounded-full">진행 가능: 신용카드</span>';
                 } else { // 200만원 이하
                     paymentMethodInfo.innerHTML = '<span class="text-sm font-medium py-1 px-3 bg-slate-700/50 rounded-full">진행 가능: 소액결제 / 정보이용료 / 신용카드</span>';
                 }
+                */
             };
             
             // Set initial values on page load
@@ -753,5 +758,3 @@
     </script>
 </body>
 </html>
-
-
